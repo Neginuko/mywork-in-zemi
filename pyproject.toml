@@ -5,7 +5,12 @@ description = "Add your description here"
 authors = [
     { name = "Neginuko", email = "hirahaya0117@gmail.com" }
 ]
-dependencies = []
+dependencies = [
+    "jax>=0.4.28",
+    "jaxlib>=0.4.28",
+    "flax>=0.8.4",
+    "jupyter>=1.0.0",
+]
 readme = "README.md"
 requires-python = ">= 3.11"
 
@@ -27,3 +32,32 @@ allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/slm"]
+
+[tool.black]
+line-length = 120
+
+[tool.ruff]
+line-length = 120
+select = ["ALL"]
+extend-include = ["*.ipynb"]
+ignore = [
+    "ANN001",
+    "ANN201",
+    "D101",
+    "D102",
+    "D103",
+    "F401",
+    "Q000",
+    "RET504",
+    "UP035",
+]
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.rye.scripts]
+format = { chain = ["black src", "ruff check --fix src"] }
+lint = { chain = ["black --check src", "ruff check src", "mypy src"] }
+test = { chain = ["python -m pytest tests"] }
+
+
